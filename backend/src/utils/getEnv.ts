@@ -1,10 +1,6 @@
-export const getEnv = (key: string, defaultValue: string = ""): string => {
+export const getEnv = (key: string, defaultValue: string): string => {
   const value = process.env[key];
-  if (value === undefined) {
-    if (defaultValue) {
-      return defaultValue;
-    }
-    throw new Error(`Missing enviroment variable ${key}`);
-  }
-  return value;
+  if (value !== undefined) return value;
+  if (defaultValue !== undefined) return defaultValue;
+  throw new Error(`Missing environment variable ${key}`);
 };
