@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { config } from "./config/app.config.js";
 import { HttpStatus } from "./config/http.config.js";
+import connectDB from "./database/db.js";
 
 const app = express();
 
@@ -23,7 +24,8 @@ app.get("/", (_req: Request, res: Response) => {
   });
 });
 
-const startServer = () => {
+const startServer = async () => {
+  await connectDB();
   app.listen(config.PORT, () => {
     console.log(
       `Server listening on port ${config.PORT} in ${config.NODE_ENV} mode.`,
@@ -31,4 +33,7 @@ const startServer = () => {
   });
 };
 
-startServer();
+startServer().catch((error: Error) => {
+  console.error("Failed to start server:", error.message);
+  process.exit(1);
+});
