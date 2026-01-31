@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import { config } from "./config/app.config.js";
 import { HttpStatus } from "./config/http.config.js";
 import connectDB from "./database/db.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import { asyncHandler } from "./middlewares/asyncHandler.js";
 
 const app = express();
 
@@ -18,11 +20,16 @@ app.use(
   }),
 );
 
-app.get("/", (_req: Request, res: Response) => {
-  res.status(HttpStatus.OK).json({
-    message: "Server working fine!",
-  });
-});
+app.get(
+  "/",
+  asyncHandler(async (_req: Request, res: Response) => {
+    res.status(HttpStatus.OK).json({
+      message: "Server working fine!",
+    });
+  }),
+);
+
+app.use(errorHandler);
 
 const startServer = async () => {
   await connectDB();
