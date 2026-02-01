@@ -7,8 +7,10 @@ import { HttpStatus } from "./config/http.config.js";
 import connectDB from "./database/db.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { asyncHandler } from "./middlewares/asyncHandler.js";
+import authRoutes from "./modules/auth/auth.routes.js";
 
 const app = express();
+const BASE_API_PATH = config.BASE_API_PATH;
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +30,8 @@ app.get(
     });
   }),
 );
+
+app.use(`${BASE_API_PATH}/auth`, authRoutes);
 
 app.use(errorHandler);
 
