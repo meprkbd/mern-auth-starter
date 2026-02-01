@@ -23,7 +23,7 @@ export const authenticate = asyncHandler(
       throw new UnauthorizedException(error || "Invalid access token");
     }
     req.sessionId = String(payload.sessionId);
-
+    req.userId = String(payload.userId);
     next();
   },
 );

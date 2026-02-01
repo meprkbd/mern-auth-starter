@@ -103,10 +103,11 @@ export class AuthController {
   public logout = asyncHandler(
     async (req: Request, res: Response): Promise<any> => {
       const sessionId = req.sessionId;
-      if (!sessionId) {
+      const userId = req.userId;
+      if (!sessionId || !userId) {
         throw new NotFoundException("Session is invalid.");
       }
-      await this.authService.logout(sessionId);
+      await this.authService.logout(sessionId, userId);
       return clearAuthCookies(res).status(HttpStatus.OK).json({
         message: "User logout successfully",
       });
