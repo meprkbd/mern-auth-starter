@@ -1,5 +1,5 @@
 import mongoose, { Schema, type Document } from "mongoose";
-import type { VerificationEnum } from "../../enums/verificationCode.enum.js";
+import { VerificationEnum } from "../../enums/verificationCode.enum.js";
 import { generateUniqueCode } from "../../utils/uuid.js";
 
 export interface VerificationCodeDocument extends Document {
@@ -26,6 +26,7 @@ const verificationCodeSchema = new Schema<VerificationCodeDocument>({
   type: {
     type: String,
     required: true,
+    enum: Object.values(VerificationEnum),
   },
   createdAt: {
     type: Date,

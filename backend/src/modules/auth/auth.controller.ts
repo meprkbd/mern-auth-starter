@@ -67,7 +67,7 @@ export class AuthController {
       })
         .status(HttpStatus.OK)
         .json({
-          message: "User login successfully",
+          message: "User logged in successfully",
           user,
         });
     },

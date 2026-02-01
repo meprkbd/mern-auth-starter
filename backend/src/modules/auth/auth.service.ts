@@ -99,13 +99,13 @@ export class AuthService {
   public async login(loginData: LoginDto) {
     const { email, password, userAgent } = loginData;
 
-    logger.info(`Login attempt for email: ${email}`);
+    logger.info(`Login attempt initiated`);
     const user = await UserModel.findOne({
-      email: email,
-    });
+      email,
+    }).select("+password");
 
     if (!user) {
-      logger.warn(`Login failed: User with email ${email} not found`);
+      logger.warn(`Login failed: User not found`);
       throw new BadRequestException(
         "Invalid email or password provided",
         ErrorCode.AUTH_USER_NOT_FOUND,
@@ -114,7 +114,7 @@ export class AuthService {
 
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
-      logger.warn(`Login failed: Invalid password for email: ${email}`);
+      logger.warn(`Login failed: Invalid password for user ID: ${user._id}`);
       throw new BadRequestException(
         "Invalid email or password provided",
         ErrorCode.AUTH_USER_NOT_FOUND,
