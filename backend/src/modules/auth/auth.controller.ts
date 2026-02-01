@@ -109,7 +109,7 @@ export class AuthController {
       }
       await this.authService.logout(sessionId, userId);
       return clearAuthCookies(res).status(HttpStatus.OK).json({
-        message: "User logout successfully",
+        message: "User logged out successfully",
       });
     },
   );

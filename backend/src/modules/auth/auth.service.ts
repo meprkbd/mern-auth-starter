@@ -200,6 +200,6 @@ export class AuthService {
   }
 
   public async logout(sessionId: string, userId: string) {
-    return await SessionModel.findByIdAndDelete({ _id: sessionId, userId });
+    return await SessionModel.findOneAndDelete({ _id: sessionId, userId });
   }
 }
